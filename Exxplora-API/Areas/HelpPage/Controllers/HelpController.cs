@@ -1,7 +1,6 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Exxplora_API.Areas.HelpPage.ModelDescriptions;
 using Exxplora_API.Areas.HelpPage.Models;
 
 namespace Exxplora_API.Areas.HelpPage.Controllers
@@ -11,8 +10,6 @@ namespace Exxplora_API.Areas.HelpPage.Controllers
     /// </summary>
     public class HelpController : Controller
     {
-        private const string ErrorViewName = "Error";
-
         public HelpController()
             : this(GlobalConfiguration.Configuration)
         {
@@ -42,22 +39,7 @@ namespace Exxplora_API.Areas.HelpPage.Controllers
                 }
             }
 
-            return View(ErrorViewName);
-        }
-
-        public ActionResult ResourceModel(string modelName)
-        {
-            if (!String.IsNullOrEmpty(modelName))
-            {
-                ModelDescriptionGenerator modelDescriptionGenerator = Configuration.GetModelDescriptionGenerator();
-                ModelDescription modelDescription;
-                if (modelDescriptionGenerator.GeneratedModels.TryGetValue(modelName, out modelDescription))
-                {
-                    return View(modelDescription);
-                }
-            }
-
-            return View(ErrorViewName);
+            return View("Error");
         }
     }
 }

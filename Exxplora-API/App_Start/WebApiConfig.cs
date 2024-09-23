@@ -14,8 +14,8 @@ namespace Exxplora_API
         {
             // Other configurations...
 
-            config.SuppressDefaultHostAuthentication();
-            config.Filters.Add(new HostAuthenticationFilter("Bearer"));
+            //config.SuppressDefaultHostAuthentication();
+            //config.Filters.Add(new HostAuthenticationFilter("Bearer"));
 
             // Enable Web API routes
             config.MapHttpAttributeRoutes();
