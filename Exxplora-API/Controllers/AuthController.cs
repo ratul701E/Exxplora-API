@@ -41,7 +41,7 @@ namespace Exxplora_API.Controllers
                 };
             }
 
-            var user = DataConnection.DB.Users.Include(u => u.Role).FirstOrDefault(u => u.Email.Equals(model.Email) && u.Password.Equals(model.Password));
+            var user = DataAccess.DB.Users.Include(u => u.Role).FirstOrDefault(u => u.Email.Equals(model.Email) && u.Password.Equals(model.Password));
 
             if (user == null)
             {
@@ -78,7 +78,7 @@ namespace Exxplora_API.Controllers
         public List<User> TestAuth()
         {
 
-            return DataConnection.DB.Users.Include(u => u.Role).ToList();
+            return DataAccess.DB.Users.Include(u => u.Role).ToList();
         }
 
     }

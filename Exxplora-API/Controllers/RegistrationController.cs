@@ -35,7 +35,7 @@ namespace Exxplora_API.Controllers
                 };
             }
 
-            var user = DataConnection.DB.Users.FirstOrDefault(u => u.Email.Equals(model.Email));
+            var user = DataAccess.DB.Users.FirstOrDefault(u => u.Email.Equals(model.Email));
             if (user != null)
             {
                 return new Result<dynamic> { IsError = true, Messages = new List<String> { "Email Already in Use. Please try with different email" }, Data = null };
@@ -46,15 +46,16 @@ namespace Exxplora_API.Controllers
             try
             {
                 model.RoleId = (int)Roles.USER;
-                DataConnection.DB.Users.Add(model);
-                DataConnection.DB.SaveChanges();
+                DataAccess.DB.Users.Add(model);
+                DataAccess.DB.SaveChanges();
                 return new Result<dynamic>
                 {
                     IsError = false,
                     Messages = new List<String> { "User Registred" },
                     Data = new
                     {
-                        model.Name,
+                        model.FirstName,
+                        model.LastName,
                         model.Email,
                         model.Phone,
                         model.Institute
