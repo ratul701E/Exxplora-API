@@ -9,10 +9,15 @@ namespace Exxplora_API.Models
         [Key]
         public int ID { get; set; }
 
-        [Required(ErrorMessage = "Name is required.")]
-        [MaxLength(32, ErrorMessage = "Name cannot exceed 32 characters.")]
-        [MinLength(3, ErrorMessage = "Name must be at least 3 characters long.")]
-        public string Name { get; set; }
+        //[Required(ErrorMessage = "FirstName is required.")]
+        [MaxLength(32, ErrorMessage = "FirstName cannot exceed 32 characters.")]
+        [MinLength(3, ErrorMessage = "FirstName must be at least 3 characters long.")]
+        public string FirstName { get; set; }
+
+        //[Required(ErrorMessage = "LastName is required.")]
+        [MaxLength(32, ErrorMessage = "LastName cannot exceed 32 characters.")]
+        [MinLength(3, ErrorMessage = "LastName must be at least 3 characters long.")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
@@ -26,13 +31,13 @@ namespace Exxplora_API.Models
         [MaxLength(15, ErrorMessage = "Phone number cannot exceed 15 characters.")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "IsStudent field is required.")]
+        //[Required(ErrorMessage = "IsStudent field is required.")]
         public bool IsStudent { get; set; }
 
         public int StartYear { get; set; }
 
-        [Required(ErrorMessage = "Institute is required.")]
-        [MaxLength(100, ErrorMessage = "Institute name cannot exceed 100 characters.")]
+        //[Required(ErrorMessage = "Institute is required.")]
+        //[MaxLength(100, ErrorMessage = "Institute name cannot exceed 100 characters.")]
         public string Institute { get; set; }
 
         public int RoleId { get; set; }

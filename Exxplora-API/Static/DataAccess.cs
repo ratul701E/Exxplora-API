@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Exxplora_API.Static
 {
-    public static class DataConnection
+    public static class DataAccess
     {
         private static ExxploraDbContext _DB;
 

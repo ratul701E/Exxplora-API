@@ -52,13 +52,13 @@ namespace Exxplora_API.Controllers
                     Budget = model.Budget,
                     IsArchived = false,
                     Contributors = new List<User>(),
-                    Domains = DataConnection.DB.Domains
+                    Domains = DataAccess.DB.Domains
                          .Where(d => model.Domains.Contains(d.Id))
                          .ToList()
                 };
 
-                DataConnection.DB.Projects.Add(project);
-                DataConnection.DB.SaveChanges();
+                DataAccess.DB.Projects.Add(project);
+                DataAccess.DB.SaveChanges();
                 return new Result<dynamic> { IsError = false, Messages = new List<String> { "Project Added" }, Data = project };
 
             }
@@ -72,12 +72,13 @@ namespace Exxplora_API.Controllers
 
 
         [HttpGet]
+        [Authorize]
         public Result<List<Project>> GetAllProjects()
         {
             return new Result<List<Project>> { 
                 IsError = false,
                 Messages = new List<String> { "All Project Returned" },
-                Data = DataConnection.DB.Projects.Include(p => p.Author).ToList()
+                Data = DataAccess.DB.Projects.Include(p => p.Author).ToList()
 
             };
         }
