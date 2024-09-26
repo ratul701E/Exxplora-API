@@ -255,6 +255,10 @@
     <Compile Include="Migrations\202409261631223_UpdateUserTableAddedColumns1.Designer.cs">
       <DependentUpon>202409261631223_UpdateUserTableAddedColumns1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409261721212_UpdateUserTableAddedColumns2.cs" />
+    <Compile Include="Migrations\202409261721212_UpdateUserTableAddedColumns2.Designer.cs">
+      <DependentUpon>202409261721212_UpdateUserTableAddedColumns2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\DTO\ProjectDTO.cs" />
@@ -427,6 +431,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409261631223_UpdateUserTableAddedColumns1.resx">
       <DependentUpon>202409261631223_UpdateUserTableAddedColumns1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409261721212_UpdateUserTableAddedColumns2.resx">
+      <DependentUpon>202409261721212_UpdateUserTableAddedColumns2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

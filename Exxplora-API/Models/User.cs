@@ -9,12 +9,12 @@ namespace Exxplora_API.Models
         [Key]
         public int ID { get; set; }
 
-        //[Required(ErrorMessage = "FirstName is required.")]
+        [Required(ErrorMessage = "FirstName is required.")]
         [MaxLength(32, ErrorMessage = "FirstName cannot exceed 32 characters.")]
         [MinLength(3, ErrorMessage = "FirstName must be at least 3 characters long.")]
         public string FirstName { get; set; }
 
-        //[Required(ErrorMessage = "LastName is required.")]
+        [Required(ErrorMessage = "LastName is required.")]
         [MaxLength(32, ErrorMessage = "LastName cannot exceed 32 characters.")]
         [MinLength(3, ErrorMessage = "LastName must be at least 3 characters long.")]
         public string LastName { get; set; }

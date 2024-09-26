@@ -57,8 +57,6 @@ namespace Exxplora_API.Controllers
                         model.FirstName,
                         model.LastName,
                         model.Email,
-                        model.Phone,
-                        model.Institute
                     }
                 };
 
