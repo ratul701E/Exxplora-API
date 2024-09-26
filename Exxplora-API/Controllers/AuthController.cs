@@ -75,10 +75,10 @@ namespace Exxplora_API.Controllers
         [HttpGet]
         [Authorize]
         [Route("api/authenticate")]
-        public string TestAuth()
+        public List<User> TestAuth()
         {
 
-            return "Authorized Access";
+            return DataConnection.DB.Users.Include(u => u.Role).ToList();
         }
 
     }

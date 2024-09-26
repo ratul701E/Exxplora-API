@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Exxplora_API.Models
 {
-    public class UserModel
+    public class User
     {
         [Key]
         public int ID { get; set; }
@@ -36,6 +37,10 @@ namespace Exxplora_API.Models
 
         public int RoleId { get; set; }
 
-        public RoleModel Role { get; set; }
+        public Role Role { get; set; }
+
+        public ICollection<Project> Projects { get; set; }
+
+        public ICollection<Project> AuthoredProjects { get; set; }
     }
 }

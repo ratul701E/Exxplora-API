@@ -22,9 +22,14 @@ namespace Exxplora_API.Context
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
         // public virtual DbSet<MyEntity> MyEntities { get; set; }
-        public virtual DbSet<UserModel> Users { get; set; }
-        public virtual DbSet<RoleModel> Roles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<ProjectStatus> ProjectStatuses { get; set; }
+        public virtual DbSet<Domain> Domains { get; set; }
     }
+
+
 
     //public class MyEntity
     //{

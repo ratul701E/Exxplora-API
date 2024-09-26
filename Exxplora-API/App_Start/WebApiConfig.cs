@@ -16,6 +16,7 @@ namespace Exxplora_API
 
             //config.SuppressDefaultHostAuthentication();
             //config.Filters.Add(new HostAuthenticationFilter("Bearer"));
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
             // Enable Web API routes
             config.MapHttpAttributeRoutes();

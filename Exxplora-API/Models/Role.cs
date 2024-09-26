@@ -6,14 +6,14 @@ using System.Web;
 
 namespace Exxplora_API.Models
 {
-    public enum Role
+    public enum Roles
     {
         ADMIN = 1,
         MODERATOR,
         USER,
     }
 
-    public class RoleModel
+    public class Role
     {
         public int ID { get; set; }
 

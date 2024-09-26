@@ -14,7 +14,7 @@ namespace Exxplora_API.Controllers
     {
         [HttpPost]
         [Route("api/registration/user")]
-        public Result<dynamic> RegisterUser([FromBody] UserModel model)
+        public Result<dynamic> RegisterUser([FromBody] User model)
         {
             if (model == null)
             {
@@ -45,28 +45,28 @@ namespace Exxplora_API.Controllers
             
             try
             {
-                model.RoleId = (int)Role.USER;
+                model.RoleId = (int)Roles.USER;
                 DataConnection.DB.Users.Add(model);
                 DataConnection.DB.SaveChanges();
+                return new Result<dynamic>
+                {
+                    IsError = false,
+                    Messages = new List<String> { "User Registred" },
+                    Data = new
+                    {
+                        model.Name,
+                        model.Email,
+                        model.Phone,
+                        model.Institute
+                    }
+                };
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Something is wrong when try to connect with database", ex.Message }, Data = null };
+                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
             }
-
-          
-            return new Result<dynamic> { 
-                IsError = false, 
-                Messages = new List<String> { "User Registred" }, 
-                Data = new { 
-                    model.Name,
-                    model.Email,
-                    model.Phone,
-                    model.Institute
-                } 
-            };
         }
     }
 }
