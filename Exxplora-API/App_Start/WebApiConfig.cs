@@ -5,6 +5,7 @@ using System.Web.Http;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System.Web.Http.Cors;
 
 namespace Exxplora_API
 {
@@ -12,6 +13,10 @@ namespace Exxplora_API
     {
         public static void Register(HttpConfiguration config)
         {
+            //cors configurations
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+
             // Other configurations...
 
             //config.SuppressDefaultHostAuthentication();
