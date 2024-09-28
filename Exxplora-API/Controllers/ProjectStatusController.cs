@@ -19,16 +19,11 @@ namespace Exxplora_API.Controllers
         {
             try
             {
-                return new Result<List<ProjectStatus>>
-                {
-                    IsError = false,
-                    Messages = new List<string> { "All Project Status with name and id" },
-                    Data = DataAccess.DB.ProjectStatuses.ToList()
-                };
+                return ResultHelper.SuccessResponse("All Project Status with name and id", DataAccess.DB.ProjectStatuses.ToList());
             }
             catch (Exception ex)
             {
-                return new Result<List<ProjectStatus>> { IsError = true, Messages = new List<string> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+                return ResultHelper.ErrorResponse< List<ProjectStatus>>(new List<string> { "Something went wrong when try to connect with database", ex.Message });
             }
         }
     }

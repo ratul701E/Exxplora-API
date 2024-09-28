@@ -25,8 +25,7 @@ namespace Exxplora_API.Controllers
             
             if (model == null)
             {
-                return new Result<string> { IsError = true, Messages = new List<String> { "You must provide data"}, Data = null };
-
+                return ResultHelper.ErrorResponse<string>("You must provide data");
             }
 
             if (!ModelState.IsValid)
@@ -45,7 +44,7 @@ namespace Exxplora_API.Controllers
 
             if (user == null)
             {
-                return new Result<string> { IsError = true, Messages = new List<String> { "Invalid Credentials" }, Data = null };
+                return ResultHelper.ErrorResponse<string>("Invalid Credentials");
             }
 
 
@@ -69,7 +68,7 @@ namespace Exxplora_API.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return new Result<string> { IsError = false, Messages = new List<String> { "Successfull" }, Data = tokenString};
+            return ResultHelper.SuccessResponse("Successfull", tokenString);
         }
 
         [HttpGet]

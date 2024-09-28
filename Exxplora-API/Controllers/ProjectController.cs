@@ -21,21 +21,17 @@ namespace Exxplora_API.Controllers
         {
             if (model == null)
             {
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "You must provide data" }, Data = null };
-
+                return ResultHelper.ErrorResponse<dynamic>("You must provide data");
             }
 
             if (!ModelState.IsValid)
             {
-                return new Result<dynamic>
-                {
-                    IsError = true,
-                    Messages = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .ToList(),
-                    Data = null
-                };
+                return ResultHelper.ErrorResponse<dynamic>(
+                        ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                    );
             }
 
             try
@@ -59,14 +55,13 @@ namespace Exxplora_API.Controllers
 
                 DataAccess.DB.Projects.Add(project);
                 DataAccess.DB.SaveChanges();
-                return new Result<dynamic> { IsError = false, Messages = new List<String> { "Project Added" }, Data = project };
-
+                return ResultHelper.SuccessResponse<dynamic>("Project Added", project);
             }
 
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Something went wrong when try to connect with database", ex.Message }, Data = ex };
+                return ResultHelper.ErrorResponse<dynamic>(new List<String> { "Something went wrong when try to connect with database", ex.Message });
             }
         }
 
@@ -75,12 +70,8 @@ namespace Exxplora_API.Controllers
         [Authorize]
         public Result<List<Project>> GetAllProjects()
         {
-            return new Result<List<Project>> { 
-                IsError = false,
-                Messages = new List<String> { "All Project Returned" },
-                Data = DataAccess.DB.Projects.Include(p => p.Author).ToList()
 
-            };
+            return ResultHelper.SuccessResponse("All Project Returned", DataAccess.DB.Projects.Include(p => p.Author).ToList());
         }
 
     }

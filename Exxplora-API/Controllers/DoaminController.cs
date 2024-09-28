@@ -20,16 +20,11 @@ namespace Exxplora_API.Controllers
         {
             try
             {
-                return new Result<List<Domain>>
-                {
-                    IsError = false,
-                    Messages = new List<string> { "All domain with name and id" },
-                    Data = DataAccess.DB.Domains.ToList()
-                };
+                return ResultHelper.SuccessResponse("All domain with name and id", DataAccess.DB.Domains.ToList());
             }
             catch (Exception ex)
             {
-                return new Result<List<Domain>> { IsError = true, Messages = new List<string> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+                return ResultHelper.ErrorResponse< List<Domain>>(new List<string> { "Something went wrong when try to connect with database", ex.Message });
             }
         }
 
@@ -39,11 +34,7 @@ namespace Exxplora_API.Controllers
         {
             try
             {
-                return new Result<dynamic>
-                {
-                    IsError = false,
-                    Messages = new List<string> { "All projects" },
-                    Data = DataAccess.DB.Domains
+                return ResultHelper.SuccessResponse<dynamic>("All projects", DataAccess.DB.Domains
                               .Where(d => d.Id == id)
                               .Select(d => new
                               {
@@ -66,13 +57,12 @@ namespace Exxplora_API.Controllers
 
                                       }).ToList()
                                   }).ToList()
-                              }).ToList()
-                };
+                              }).ToList());
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+                return ResultHelper.ErrorResponse<dynamic>(new List<String> { "Something went wrong when try to connect with database", ex.Message });
             }
         }
 

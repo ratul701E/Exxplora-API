@@ -19,27 +19,23 @@ namespace Exxplora_API.Controllers
         {
             if (model == null)
             {
-                return new Result<dynamic> { IsError = true, Messages = new List<string> { "You must provide data" }, Data = null };
-
+                ResultHelper.ErrorResponse<dynamic>("You must provide data");
             }
 
             if (!ModelState.IsValid)
             {
-                return new Result<dynamic>
-                {
-                    IsError = true,
-                    Messages = ModelState.Values
+                ResultHelper.ErrorResponse<dynamic>(
+                    ModelState.Values
                     .SelectMany(v => v.Errors)
                     .Select(e => e.ErrorMessage)
-                    .ToList(),
-                    Data = null
-                };
+                    .ToList()
+                );
             }
 
             var user = DataAccess.DB.Users.FirstOrDefault(u => u.Email.Equals(model.Email));
             if (user != null)
             {
-                return new Result<dynamic> { IsError = true, Messages = new List<string> { "Email Already in Use. Please try with different email" }, Data = null };
+                return ResultHelper.ErrorResponse<dynamic>("Email Already in Use. Please try with different email");
             }
 
             
@@ -49,23 +45,20 @@ namespace Exxplora_API.Controllers
                 model.RoleId = (int)Roles.USER;
                 DataAccess.DB.Users.Add(model);
                 DataAccess.DB.SaveChanges();
-                return new Result<dynamic>
-                {
-                    IsError = false,
-                    Messages = new List<String> { "User Registred" },
-                    Data = new
+                return ResultHelper.SuccessResponse<dynamic>("User Registred", 
+                    new
                     {
                         model.FirstName,
                         model.LastName,
                         model.Email,
                     }
-                };
+                );
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new Result<dynamic> { IsError = true, Messages = new List<string> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+                return ResultHelper.ErrorResponse<dynamic>(new List<string> { "Something went wrong when try to connect with database", ex.Message });
             }
         }
 
@@ -75,17 +68,26 @@ namespace Exxplora_API.Controllers
         {
             if (email == null)
             {
-                return new Result<bool?> { IsError = true, Messages = new List<String> { "Invalid Request. Please Provide email" }, Data = null };
+                return ResultHelper.ErrorResponse<bool?>("Invalid Request. Please Provide email");
             }
 
+
+            if (this.CheckEmail(email))
+            {
+                return ResultHelper.SuccessResponse<bool?>("Email Alreay Used. Please try with different email", true);
+            }
+            return ResultHelper.SuccessResponse<bool?>("Email can be used.", false);
+
+        }
+
+        private bool CheckEmail(string email)
+        {
             var user = DataAccess.DB.Users.FirstOrDefault(u => u.Email.Equals(email));
             if (user != null)
             {
-                return new Result<bool?> { IsError = true, Messages = new List<String> { "Email Already in Use. Please try with different email" }, Data = true };
+                return true;
             }
-
-            return new Result<bool?> { IsError = false, Messages = new List<String> { "Valid Email to use" }, Data = false };
-
+            return false;
         }
     }
 }
