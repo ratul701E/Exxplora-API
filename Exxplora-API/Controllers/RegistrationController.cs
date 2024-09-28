@@ -19,7 +19,7 @@ namespace Exxplora_API.Controllers
         {
             if (model == null)
             {
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "You must provide data" }, Data = null };
+                return new Result<dynamic> { IsError = true, Messages = new List<string> { "You must provide data" }, Data = null };
 
             }
 
@@ -39,7 +39,7 @@ namespace Exxplora_API.Controllers
             var user = DataAccess.DB.Users.FirstOrDefault(u => u.Email.Equals(model.Email));
             if (user != null)
             {
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Email Already in Use. Please try with different email" }, Data = null };
+                return new Result<dynamic> { IsError = true, Messages = new List<string> { "Email Already in Use. Please try with different email" }, Data = null };
             }
 
             
@@ -65,7 +65,7 @@ namespace Exxplora_API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new Result<dynamic> { IsError = true, Messages = new List<String> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+                return new Result<dynamic> { IsError = true, Messages = new List<string> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
             }
         }
 

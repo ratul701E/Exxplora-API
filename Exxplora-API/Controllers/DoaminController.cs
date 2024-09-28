@@ -15,6 +15,25 @@ namespace Exxplora_API.Controllers
     public class DoaminController : ApiController
     {
         [HttpGet]
+        [Route("")]
+        public Result<List<Domain>> GetAllDomains()
+        {
+            try
+            {
+                return new Result<List<Domain>>
+                {
+                    IsError = false,
+                    Messages = new List<string> { "All domain with name and id" },
+                    Data = DataAccess.DB.Domains.ToList()
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<Domain>> { IsError = true, Messages = new List<string> { "Something went wrong when try to connect with database", ex.Message }, Data = null };
+            }
+        }
+
+        [HttpGet]
         [Route("projects/{id:int}")]
         public Result<dynamic> GetProjectsByDomain(int id)
         {

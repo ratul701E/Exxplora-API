@@ -221,7 +221,9 @@
     <Compile Include="Controllers\DoaminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -265,10 +267,15 @@
     <Compile Include="Migrations\202409261721212_UpdateUserTableAddedColumns2.Designer.cs">
       <DependentUpon>202409261721212_UpdateUserTableAddedColumns2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.cs" />
+    <Compile Include="Migrations\202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.Designer.cs">
+      <DependentUpon>202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\DTO\ProjectDTO.cs" />
     <Compile Include="Models\DTO\SigninDTO.cs" />
+    <Compile Include="Models\DTO\UpdateProfileDTO.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
     <Compile Include="Models\Role.cs" />
@@ -440,6 +447,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409261721212_UpdateUserTableAddedColumns2.resx">
       <DependentUpon>202409261721212_UpdateUserTableAddedColumns2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.resx">
+      <DependentUpon>202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

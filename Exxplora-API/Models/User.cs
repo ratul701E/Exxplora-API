@@ -37,9 +37,10 @@ namespace Exxplora_API.Models
         public int StartYear { get; set; }
 
         //[Required(ErrorMessage = "Institute is required.")]
-        //[MaxLength(100, ErrorMessage = "Institute name cannot exceed 100 characters.")]
+        [MaxLength(100, ErrorMessage = "Institute name cannot exceed 100 characters.")]
         public string Institute { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Role id must be grater than 0")]
         public int RoleId { get; set; }
 
         public Role Role { get; set; }
@@ -47,5 +48,12 @@ namespace Exxplora_API.Models
         public ICollection<Project> Projects { get; set; }
 
         public ICollection<Project> AuthoredProjects { get; set; }
+
+        [MinLength(3, ErrorMessage = "Profile Picture Path must be at least 3 characters long.")]
+        public string ProfilePicturePath { get; set; }
+        
+        [MinLength(3, ErrorMessage = "Cover Photo Path Picture Path must be at least 3 characters long.")]
+        public string CoverPhotoPath { get; set; }
+
     }
 }
