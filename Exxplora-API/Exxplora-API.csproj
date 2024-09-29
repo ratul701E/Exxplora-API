@@ -271,11 +271,15 @@
     <Compile Include="Migrations\202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.Designer.cs">
       <DependentUpon>202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409290045414_UpdateUserTablesAttributesAndAddedNewColumns.cs" />
+    <Compile Include="Migrations\202409290045414_UpdateUserTablesAttributesAndAddedNewColumns.Designer.cs">
+      <DependentUpon>202409290045414_UpdateUserTablesAttributesAndAddedNewColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\DTO\ProjectDTO.cs" />
     <Compile Include="Models\DTO\SigninDTO.cs" />
-    <Compile Include="Models\DTO\UpdateProfileDTO.cs" />
+    <Compile Include="Models\DTO\ProfileSetupDTO.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
     <Compile Include="Models\Role.cs" />
@@ -285,6 +289,7 @@
     <Compile Include="Result\ResultHelper.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Static\DataAccess.cs" />
+    <Compile Include="Utilities\ClaimsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -451,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.resx">
       <DependentUpon>202409281645525_UpdateUserTableAddColumnProfilePathAndCoverPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409290045414_UpdateUserTablesAttributesAndAddedNewColumns.resx">
+      <DependentUpon>202409290045414_UpdateUserTablesAttributesAndAddedNewColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

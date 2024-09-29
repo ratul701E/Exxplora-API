@@ -56,10 +56,11 @@ namespace Exxplora_API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.Role.Name),
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(10),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 Issuer = ConfigurationManager.AppSettings["jwtIssuer"],
                 Audience = ConfigurationManager.AppSettings["jwtAudience"]
@@ -77,7 +78,7 @@ namespace Exxplora_API.Controllers
         public List<User> TestAuth()
         {
 
-            return DataAccess.DB.Users.Include(u => u.Role).ToList();
+            return DataAccess.DB.Users.Include(u => u.Role).Include(u => u.Domains).ToList();
         }
 
     }

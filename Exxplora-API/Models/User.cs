@@ -36,6 +36,10 @@ namespace Exxplora_API.Models
 
         public int StartYear { get; set; }
 
+        public int EndYear { get; set; }
+
+        public string Location { get; set; }
+
         //[Required(ErrorMessage = "Institute is required.")]
         [MaxLength(100, ErrorMessage = "Institute name cannot exceed 100 characters.")]
         public string Institute { get; set; }
@@ -48,6 +52,8 @@ namespace Exxplora_API.Models
         public ICollection<Project> Projects { get; set; }
 
         public ICollection<Project> AuthoredProjects { get; set; }
+
+        public ICollection<Domain> Domains { get; set; }
 
         [MinLength(3, ErrorMessage = "Profile Picture Path must be at least 3 characters long.")]
         public string ProfilePicturePath { get; set; }

@@ -2,12 +2,14 @@
 using Exxplora_API.Models.DTO;
 using Exxplora_API.Result;
 using Exxplora_API.Static;
+using Exxplora_API.Utilities;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -107,8 +109,9 @@ namespace Exxplora_API.Controllers
         }
 
         [HttpPost]
-        [Route("update/{id:int}")]
-        public Result<dynamic> UpdateUserInformation(int id, [FromBody] UpdateProfileDTO model)
+        [Authorize]
+        [Route("setup")]
+        public Result<dynamic> SetupUserInformation([FromBody] ProfileSetupDTO model)
         {
             if (model == null)
             {
@@ -126,29 +129,32 @@ namespace Exxplora_API.Controllers
 
             try
             {
+                var id = int.Parse(ClaimsHelper.GetUserId(User));
                 var user = GetUserById(id);
                 if (user == null)
                 {
                     return ResultHelper.ErrorResponse<dynamic>("User not found");
                 }
 
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
+                user.Location = model.Location;
+                user.EndYear = model.EndYear;
                 user.IsStudent = model.IsStudent;
                 user.StartYear = model.StartYear;
-                user.Institute = model.Institute;
+                user.Institute = model.Institution;
+                user.Domains = DataAccess.DB.Domains
+                         .Where(d => model.Domains.Contains(d.Id))
+                         .ToList();
 
                 DataAccess.DB.SaveChanges();
 
                 return ResultHelper.SuccessResponse<dynamic>("User updated", new
                 {
-                    model.FirstName,
-                    model.LastName,
-                    model.Email,
+                    model.Location,
                     model.IsStudent,
                     model.StartYear,
-                    model.Institute,
+                    model.EndYear,
+                    model.Institution,
+                    model.Domains
                 });
             }
             catch (Exception ex)
@@ -158,17 +164,35 @@ namespace Exxplora_API.Controllers
         }
 
         [HttpPost]
-        [Route("upload-profile-picture/{id:int}")]
-        public Task<Result<bool?>> UploadProfilePicture(int id)
+        [Authorize]
+        [Route("upload-profile-picture")]
+        public Task<Result<bool?>> UploadProfilePicture()
         {
-            return HandleFileUpload(id, "~/UploadedFiles/profiles", "profile_picture");
+            try
+            {
+                var id = int.Parse(ClaimsHelper.GetUserId(User));
+                return HandleFileUpload(id, "~/UploadedFiles/profiles", "profile_picture");
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(ResultHelper.ErrorResponse<bool?>("Failed to patch id"));
+            }
         }
 
         [HttpPost]
-        [Route("upload-cover-photo/{id:int}")]
-        public Task<Result<bool?>> UploadCoverPhoto(int id)
+        [Authorize]
+        [Route("upload-cover-photo")]
+        public Task<Result<bool?>> UploadCoverPhoto()
         {
-            return HandleFileUpload(id, "~/UploadedFiles/covers", "cover_photo");
+            try
+            {
+                var id = int.Parse(ClaimsHelper.GetUserId(User));
+                return HandleFileUpload(id, "~/UploadedFiles/covers", "cover_photo");
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(ResultHelper.ErrorResponse<bool?>("Failed to patch id"));
+            }
         }
 
         [HttpGet]
@@ -198,5 +222,43 @@ namespace Exxplora_API.Controllers
             var path = HttpContext.Current.Server.MapPath("~/UploadedFiles/covers/" + user.CoverPhotoPath);
             return ReturnFile(path);
         }
+
+        //[HttpGet]
+        //[Authorize]
+        //[Route("getmyphoto")]
+        //public IHttpActionResult GeTMyPhoto()
+        //{
+        //    var identity = User.Identity as ClaimsIdentity;
+        //    if (identity != null)
+        //    {
+        //        // Extract the email claim
+        //        var emailClaim = identity.FindFirst(ClaimTypes.Email) ??
+        //                         identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+        //        var email = emailClaim?.Value;
+        //        var path = DataAccess.DB.Users.FirstOrDefault(x => x.Email == email).ProfilePicturePath;
+        //        path = HttpContext.Current.Server.MapPath("~/UploadedFiles/profiles/" + path);
+        //        return ReturnFile(path);
+        //    }
+        //    return null;
+        //}
+
+        //[HttpGet]
+        //[Authorize]
+        //[Route("getmycover")]
+        //public IHttpActionResult GeTMyCover()
+        //{
+        //    var identity = User.Identity as ClaimsIdentity;
+        //    if (identity != null)
+        //    {
+        //        // Extract the email claim
+        //        var emailClaim = identity.FindFirst(ClaimTypes.Email) ??
+        //                         identity.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+        //        var email = emailClaim?.Value;
+        //        var path = DataAccess.DB.Users.FirstOrDefault(x => x.Email == email).CoverPhotoPath;
+        //        path = HttpContext.Current.Server.MapPath("~/UploadedFiles/covers/" + path);
+        //        return ReturnFile(path);
+        //    }
+        //    return null;
+        //}
     }
 }
