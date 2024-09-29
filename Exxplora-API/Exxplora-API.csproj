@@ -277,6 +277,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain.cs" />
+    <Compile Include="Models\DTO\GetInfoDTO.cs" />
     <Compile Include="Models\DTO\ProjectDTO.cs" />
     <Compile Include="Models\DTO\SigninDTO.cs" />
     <Compile Include="Models\DTO\ProfileSetupDTO.cs" />

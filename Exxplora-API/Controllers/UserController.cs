@@ -223,6 +223,34 @@ namespace Exxplora_API.Controllers
             return ReturnFile(path);
         }
 
+        [HttpGet]
+        [Route("")]
+        [Authorize]
+        public Result<GetInfoDTO> GetInfo()
+        {
+            try
+            {
+                var id = int.Parse(ClaimsHelper.GetUserId(User));
+                var user = this.GetUserById(id);
+                GetInfoDTO getInfoDTO = new GetInfoDTO
+                {
+                    Id = user.ID,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    OrganizationName = user.Institute,
+                    Location = user.Location,
+                    ProfilePicUrl = "http://localhost:65015/api/user/get-profile-picture/" + user.ID,
+                    CoverPicUrl = "http://localhost:65015/api/user/get-cover-photo/" + user.ID,
+                };
+
+                return ResultHelper.SuccessResponse("Data retrive successfull", getInfoDTO);
+            }
+            catch (Exception ex)
+            {
+                return ResultHelper.ErrorResponse<GetInfoDTO>("Something is wrong");
+            }
+        }
+
         //[HttpGet]
         //[Authorize]
         //[Route("getmyphoto")]
