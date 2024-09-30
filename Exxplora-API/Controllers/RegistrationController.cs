@@ -58,7 +58,7 @@ namespace Exxplora_API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return ResultHelper.ErrorResponse<dynamic>(new List<string> { "Something went wrong when try to connect with database", ex.Message });
+                return ResultHelper.ErrorResponse<dynamic>(new List<string> { "Something went wrong when try to connect with database", ex.Message }, ex);
             }
         }
 

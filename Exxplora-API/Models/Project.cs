@@ -34,11 +34,11 @@ namespace Exxplora_API.Models
 
         public DateTime? EndDate { get; set; }
 
-        public decimal Budget { get; set; }
-
         public ICollection<Domain> Domains { get; set; }
 
         public bool IsArchived { get; set; }
+
+        public ICollection<Section> Sections { get; set; }
 
     }
 

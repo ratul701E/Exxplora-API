@@ -9,10 +9,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
+using Exxplora_API.Utilities;
 
 namespace Exxplora_API.Controllers
 {
-    [Route("api/project")]
+    [RoutePrefix("api/project")]
     public class ProjectController : ApiController
     {
         [HttpPost]
@@ -40,12 +41,11 @@ namespace Exxplora_API.Controllers
                 {
                     Title = model.Title,
                     Description = model.Description,
-                    AuthorId = model.AuthorId,
+                    AuthorId = int.Parse(ClaimsHelper.GetUserId(User)),
                     ProjectStatusId = 1,
                     CreatedDate = DateTime.Now,
-                    StartDate = model.StartDate,
+                    StartDate = null,
                     EndDate = model.EndDate,
-                    Budget = model.Budget,
                     IsArchived = false,
                     Contributors = new List<User>(),
                     Domains = DataAccess.DB.Domains
@@ -61,7 +61,7 @@ namespace Exxplora_API.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return ResultHelper.ErrorResponse<dynamic>(new List<String> { "Something went wrong when try to connect with database", ex.Message });
+                return ResultHelper.ErrorResponse<dynamic>(new List<String> { "Something went wrong when try to connect with database", ex.Message }, ex);
             }
         }
 
@@ -73,6 +73,85 @@ namespace Exxplora_API.Controllers
 
             return ResultHelper.SuccessResponse("All Project Returned", DataAccess.DB.Projects.Include(p => p.Author).ToList());
         }
+
+        [HttpDelete]
+        [Authorize]
+        [Route("{id:int}")]
+        public Result<Project> DeleteProject(int id)
+        {
+            try
+            {
+                var project = DataAccess.DB.Projects.FirstOrDefault(p => p.Id == id);
+                if (project == null)
+                {
+                    return ResultHelper.ErrorResponse<Project>("Project not found");
+                }
+
+                DataAccess.DB.Projects.Remove(project);
+                DataAccess.DB.SaveChanges();
+
+                return ResultHelper.SuccessResponse("Project deleted successfully", project);
+            }
+            catch (Exception ex)
+            {
+                return ResultHelper.ErrorResponse<Project>(new List<string> { "Failed to delete project", ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Route("{id:int}")]
+        public Result<Project> UpdateProject(int id, [FromBody] ProjectDTO model)
+        {
+            if (model == null)
+            {
+                return ResultHelper.ErrorResponse<Project>("You must provide data");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return ResultHelper.ErrorResponse<Project>(
+                        ModelState.Values
+                        .SelectMany(v => v.Errors)
+                        .Select(e => e.ErrorMessage)
+                        .ToList()
+                    );
+            }
+
+            try
+            {
+                var existingProject = DataAccess.DB.Projects.Include(p => p.Domains)
+                                                            .FirstOrDefault(p => p.Id == id);
+                if (existingProject == null)
+                {
+                    return ResultHelper.ErrorResponse<Project>("Project not found");
+                }
+
+                existingProject.Title = model.Title;
+                existingProject.Description = model.Description;
+                existingProject.EndDate = model.EndDate;
+                existingProject.IsArchived = model.IsArchived;
+
+                var updatedDomains = DataAccess.DB.Domains
+                                     .Where(d => model.Domains.Contains(d.Id))
+                                     .ToList();
+
+                existingProject.Domains.Clear();
+                foreach (var domain in updatedDomains)
+                {
+                    existingProject.Domains.Add(domain);
+                }
+
+                DataAccess.DB.SaveChanges();
+
+                return ResultHelper.SuccessResponse("Project updated successfully", existingProject);
+            }
+            catch (Exception ex)
+            {
+                return ResultHelper.ErrorResponse<Project>(new List<string> { "Failed to update project", ex.Message });
+            }
+        }
+
 
     }
 }

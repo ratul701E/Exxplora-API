@@ -1,5 +1,4 @@
 using Exxplora_API.Models;
-using System;
 using System.Data.Entity;
 using System.Linq;
 
@@ -27,6 +26,8 @@ namespace Exxplora_API.Context
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectStatus> ProjectStatuses { get; set; }
         public virtual DbSet<Domain> Domains { get; set; }
+        public virtual DbSet<Section> Sections { get; set; }
+        public virtual DbSet<Version> Versions { get; set; }
     }
 
 
