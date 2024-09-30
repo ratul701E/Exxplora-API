@@ -3,6 +3,7 @@ using Exxplora_API.Models.DTO;
 using Exxplora_API.Result;
 using Exxplora_API.Static;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -71,7 +72,7 @@ namespace Exxplora_API.Controllers
         public Result<List<Project>> GetAllProjects()
         {
 
-            return ResultHelper.SuccessResponse("All Project Returned", DataAccess.DB.Projects.Include(p => p.Author).ToList());
+            return ResultHelper.SuccessResponse("All Project Returned", DataAccess.DB.Projects.Include(p => p.Author).Include(p => p.Domains).Include(p=>p.ProjectStatus).ToList());
         }
 
         [HttpDelete]

@@ -35,8 +35,8 @@ namespace Exxplora_API.Controllers
 
             try
             {
-                var section = DataAccess.DB.Projects.FirstOrDefault(p => p.Id == model.ProjectId);
-                if (section == null)
+                var project = DataAccess.DB.Projects.FirstOrDefault(p => p.Id == model.ProjectId);
+                if (project == null)
                 {
                     return ResultHelper.ErrorResponse<Section>("Project does not exist");
                 }

@@ -43,11 +43,12 @@ namespace Exxplora_API.Controllers
             }
         }
 
-        private IHttpActionResult ReturnFile(string filePath)
+        private IHttpActionResult ReturnFile(string filePath, bool isProfile = true)
         {
             if (!File.Exists(filePath))
             {
-                return NotFound();
+                if(isProfile) filePath = HttpContext.Current.Server.MapPath("~/UploadedFiles/profiles/default.png");
+                else filePath = HttpContext.Current.Server.MapPath("~/UploadedFiles/covers/default.png");
             }
 
             var imageData = File.ReadAllBytes(filePath);
@@ -220,7 +221,7 @@ namespace Exxplora_API.Controllers
             }
 
             var path = HttpContext.Current.Server.MapPath("~/UploadedFiles/covers/" + user.CoverPhotoPath);
-            return ReturnFile(path);
+            return ReturnFile(path, false);
         }
 
         [HttpGet]
