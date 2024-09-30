@@ -305,6 +305,10 @@
     <Compile Include="Migrations\202409300220374_UpdateTableSection1.Designer.cs">
       <DependentUpon>202409300220374_UpdateTableSection1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409301107125_UpdateDomainTable1.cs" />
+    <Compile Include="Migrations\202409301107125_UpdateDomainTable1.Designer.cs">
+      <DependentUpon>202409301107125_UpdateDomainTable1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain.cs" />
     <Compile Include="Models\DTO\GetInfoDTO.cs" />
@@ -513,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409300220374_UpdateTableSection1.resx">
       <DependentUpon>202409300220374_UpdateTableSection1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409301107125_UpdateDomainTable1.resx">
+      <DependentUpon>202409301107125_UpdateDomainTable1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

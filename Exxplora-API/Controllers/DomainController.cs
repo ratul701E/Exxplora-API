@@ -20,7 +20,7 @@ namespace Exxplora_API.Controllers
         {
             try
             {
-                return ResultHelper.SuccessResponse("All domain with name and id", DataAccess.DB.Domains.ToList());
+                return ResultHelper.SuccessResponse("All domain with name and id", DataAccess.DB.Domains.Include(d => d.Projects).ToList());
             }
             catch (Exception ex)
             {
@@ -63,6 +63,25 @@ namespace Exxplora_API.Controllers
             {
                 Console.WriteLine(ex);
                 return ResultHelper.ErrorResponse<dynamic>(new List<String> { "Something went wrong when try to connect with database", ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("projects/count/{id:int}")]
+        public Result<int> GetProjectCountByDomain(int id)
+        {
+            try
+            {
+                var domain = DataAccess.DB.Domains.Include(d => d.Projects).FirstOrDefault(d => d.Id == id);
+                if (domain == null)
+                {
+                    return ResultHelper.ErrorResponse<int>("Domain not found");
+                }
+                return ResultHelper.SuccessResponse("Count returned", domain.Projects.Count);
+            }
+            catch (Exception ex)
+            {
+                return ResultHelper.ErrorResponse<int>("Database Error");
             }
         }
 

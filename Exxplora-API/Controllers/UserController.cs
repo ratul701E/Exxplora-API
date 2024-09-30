@@ -19,10 +19,6 @@ namespace Exxplora_API.Controllers
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {
-        private User GetUserById(int id)
-        {
-            return DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
-        }
 
         private string GetMimeType(string fileExtension)
         {
@@ -73,7 +69,7 @@ namespace Exxplora_API.Controllers
 
             var provider = new MultipartMemoryStreamProvider();
             await Request.Content.ReadAsMultipartAsync(provider);
-            var user = GetUserById(id);
+            var user = DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
 
             if (user == null)
             {
@@ -131,7 +127,7 @@ namespace Exxplora_API.Controllers
             try
             {
                 var id = int.Parse(ClaimsHelper.GetUserId(User));
-                var user = GetUserById(id);
+                var user = DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
                 if (user == null)
                 {
                     return ResultHelper.ErrorResponse<dynamic>("User not found");
@@ -200,7 +196,7 @@ namespace Exxplora_API.Controllers
         [Route("get-profile-picture/{id:int}")]
         public IHttpActionResult GetProfilePicture(int id)
         {
-            var user = GetUserById(id);
+            var user = DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
             if (user == null)
             {
                 return NotFound();
@@ -214,7 +210,7 @@ namespace Exxplora_API.Controllers
         [Route("get-cover-photo/{id:int}")]
         public IHttpActionResult GetCoverPhoto(int id)
         {
-            var user = GetUserById(id);
+            var user = DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
             if (user == null)
             {
                 return NotFound();
@@ -232,7 +228,7 @@ namespace Exxplora_API.Controllers
             try
             {
                 var id = int.Parse(ClaimsHelper.GetUserId(User));
-                var user = this.GetUserById(id);
+                var user = DataAccess.DB.Users.FirstOrDefault(u => u.ID == id);
                 GetInfoDTO getInfoDTO = new GetInfoDTO
                 {
                     Id = user.ID,

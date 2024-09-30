@@ -14,8 +14,9 @@ namespace Exxplora_API.Static
         {
             get
             {
-                if (_DB == null) _DB = new ExxploraDbContext(); 
+                if (_DB == null) _DB = new ExxploraDbContext();
                 return _DB;
+                //return new ExxploraDbContext();
             }
         }
     }
